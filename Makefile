@@ -10,68 +10,72 @@
 #                                                                              #
 # **************************************************************************** #
 
-# Directory & File structure
+# Directories
 SRC_DIR		= src
 INC_DIR		= inc
 OBJ_DIR		= obj
 BIN_DIR		= bin
 TEST_DIR	= test
+LIBFT_DIR	= libft
+
+# Files
 BIN		= libftprintf.a
 NAME		= $(BIN_DIR)/$(BIN)
-LIBFT_DIR	= libft
-LIBFT		= $(LIBFT_DIR)/bin/libft.a
-# LIBFT_SRC	= $(shell [ -d libft ] && libft/src/*.c)
+LIBFT		= $(LIBFT_DIR)/libft.a
 
 # Tools & Flags
-CC		= cc -MD
-CFLAGS		= -Wall -Wextra -Werror -I$(INC_DIR)
+CC		= cc
+CFLAGS		= -Wall -Wextra -Werror -MD -I$(INC_DIR) -I$(LIBFT_DIR)
 RM		= rm -f
 AR		= ar rcs
 PRINTF		= printf
 
 # Source and object files
-SRC		= ft_printf.c
-OBJ 		= $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+SRC		= $(SRC_DIR)/ft_printf.c
+OBJ 		= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
+DEP		= $(OBJ:.o=.d)
 
+debug:
+	@echo "SRC = $(SRC)"
+	@echo "OBJ = $(OBJ)"
+	@echo "NAME = $(NAME)"
+	@echo "DEP = $(DEP)"
+	
+	
 # Build Rules
 $(BIN_DIR):
-	@mkdir -p $@
+	mkdir -p $@
 
 $(OBJ_DIR):
-	@mkdir -p $@
+	mkdir -p $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	@$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
-$(LIBFT): | $(LIBFT_DIR) $(BIN_DIR)
-	@make all -C $(LIBFT_DIR)
-	@$(AR) $(NAME) $(LIBFT)
+$(LIBFT):
+	$(MAKE) all -C $(LIBFT_DIR)
 
 $(NAME): $(LIBFT) $(OBJ) | $(BIN_DIR)
-	@$(AR) $(NAME) $(OBJ)
+	$(PRINTF) "Creating $(BIN) ...\n"
+	cp $(LIBFT) $(NAME)
+	$(AR) $(NAME) $(OBJ)
 
+# Targets
 all: $(NAME)
 
-# Cleaning rules
-
 clean: | $(LIBFT_DIR)
-	@$(PRINTF) "Cleaning up object files in ft_printf...\n\n"
-	@make clean -C $(LIBFT_DIR) || true
-	@$(RM) -r $(OBJ_DIR)
-	@$(PRINTF) "Removed object files"
+	$(PRINTF) "Cleaning up object files in ft_printf...\n\n"
+	$(MAKE) clean -C $(LIBFT_DIR) || true
+	$(RM) -r $(OBJ_DIR)
+	$(PRINTF) "Removed object files\n"
 
 fclean: clean
-	@$(RM) -r $(BIN_DIR)
-	@$(PRINTF) "Removed $(NAME)\n"
-	@$(RM) $(LIBFT)
-	@$(PRINTF) "Removed $(LIBFT)\n"
+	$(RM) -r $(BIN_DIR)
+	$(PRINTF) "Removed $(NAME)\n"
 
-re: fclean
-	@make all
+re: fclean all
 
-test:
-	@make -C $(TEST)
+test: all
+	$(MAKE) all -C $(TEST_DIR)
 
--include $(OBJ_DIR)/*.d
-
-.PHONY all clean fclean re
+.PHONY: all clean fclean re test

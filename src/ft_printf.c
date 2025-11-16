@@ -20,7 +20,7 @@ int	ft_printf(const char *format)
 	while (format[i])
 	{
 		ft_putchar_fd(*format, 1);
-		i++
+		i++;
 	}
 	return (i);
 }

@@ -1,4 +1,4 @@
-# **************************************************************************** #
+#**************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
@@ -25,17 +25,19 @@ else
 	TARGET_EXTENSION=out
 endif
 
-.PHONY: clean
-.PHONY: test
+.PHONY: clean test
 
 PATHU = unity/src/
 PATHS = ../src/
 PATHI = ../inc/
-PATHT = .
+PATHL = ../libft/
+PATHT = ./
 PATHB = build/
 PATHD = build/depends/
 PATHO = build/objs/
 PATHR = build/results/
+
+BIN = ../bin/libftprintf.a
 
 BUILD_PATHS = $(PATHB) $(PATHD) $(PATHO) $(PATHR)
 
@@ -44,7 +46,7 @@ SRCT = $(wildcard $(PATHT)*.c)
 COMPILE=gcc -c
 LINK=gcc
 DEPEND=gcc -MM -MG -MF
-CFLAGS=-I. -I$(PATHU) -I$(PATHI) -DTEST
+CFLAGS=-I. -I$(PATHU) -I$(PATHI) -I$(PATHL) -DTEST
 
 RESULTS = $(patsubst $(PATHT)test_%.c,$(PATHR)test_%.txt,$(SRCT) )
 
@@ -52,7 +54,12 @@ PASSED = `grep -s PASS $(PATHR)*.txt`
 FAIL = `grep -s FAIL $(PATHR)*.txt`
 IGNORE = `grep -s IGNORE $(PATHR)*.txt`
 
-test: $(BUILD_PATHS) $(RESULTS)
+debug:
+	@echo "SRCT = $(SRCT)"
+	@echo "BUILD_PATHS = $(BUILD_PATHS)"
+	@echo "BUILD_PATHS = $(BUILD_PATHS)"
+
+all: $(BUILD_PATHS) $(RESULTS)
 	@echo "-----------------------\nIGNORES:\n-----------------------"
 	@echo "$(IGNORE)"
 	@echo "-----------------------\nFAILURES:\n-----------------------"
@@ -64,7 +71,7 @@ test: $(BUILD_PATHS) $(RESULTS)
 $(PATHR)%.txt: $(PATHB)%.$(TARGET_EXTENSION)
 	-./$< > $@ 2>&1
 
-$(PATHB)test_%.$(TARGET_EXTENSION): $(PATHO)test_%.o $(PATHO)%.o $(PATHO)unity.o #$(PATHD)Test%.d
+$(PATHB)test_%.$(TARGET_EXTENSION): $(PATHO)test_%.o $(PATHO)unity.o $(BIN)
 	$(LINK) -o $@ $^
 
 $(PATHO)%.o:: $(PATHT)%.c
