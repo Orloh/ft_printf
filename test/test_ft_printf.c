@@ -11,12 +11,28 @@
 /* ************************************************************************** */
 
 #include "unity.h"
-#include "ft_printf.h"
+#include "libftprintf.h"
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
+
+static char	output_buffer[1024];
+static int	buffer_pos = 0;
 
 void	setUp(void) {}
 void	tearDown(void) {}
+
+void	test_ft_printf_no_specifiers(void)
+{
+	const char 	*fomrat = "Hello, world!\n";
+	int		*pipefd;
+	int		ret;
+
+	ret = ft_printf(format);
+
+	TEST_ASSERT_EQUAL_INT((int)ft_strlen(format), ret);
+	TEST_
+}
 
 int	main(void)
 {
