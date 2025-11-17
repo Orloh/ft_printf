@@ -12,15 +12,40 @@
 
 #include "ft_printf.h"
 
-int	ft_printf(const char *format)
+int	ft_printf(const char *format, ...)
 {
-	size_t	i;
+	int		count;
+	char	*str;
+	va_list	ap;
 
-	i = 0;
-	while (format[i])
+	str = (char *)format;
+	if (!format)
+		return (-1);
+	count = 0;
+	va_start(ap, format);
+	while (*format)
 	{
-		ft_putchar_fd(*format, 1);
-		i++;
+		if (*format == '%')
+		{
+			format++;
+			if (*format)
+				count += ft_parse_specifier(&str, ap);
+		}
+		else
+		{	
+			ft_putchar_fd(*format, 1);
+			count++;
+		}
+		if (*format)
+			format++;
 	}
-	return (i);
+	va_end(ap);
+	return (count);
+}
+
+int	ft_parse_specifier(char **format, va_list ap)
+{
+	(void) format;
+	(void) ap;
+	return (0);
 }

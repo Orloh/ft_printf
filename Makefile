@@ -35,13 +35,6 @@ SRC		= $(SRC_DIR)/ft_printf.c
 OBJ 		= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
 DEP		= $(OBJ:.o=.d)
 
-debug:
-	@echo "SRC = $(SRC)"
-	@echo "OBJ = $(OBJ)"
-	@echo "NAME = $(NAME)"
-	@echo "DEP = $(DEP)"
-	
-	
 # Build Rules
 $(BIN_DIR):
 	mkdir -p $@
@@ -64,14 +57,14 @@ $(NAME): $(LIBFT) $(OBJ) | $(BIN_DIR)
 all: $(NAME)
 
 clean: | $(LIBFT_DIR)
-	$(PRINTF) "Cleaning up object files in ft_printf...\n\n"
+	@$(PRINTF) "Cleaning up object files in ft_printf...\n\n"
 	$(MAKE) clean -C $(LIBFT_DIR) || true
 	$(RM) -r $(OBJ_DIR)
-	$(PRINTF) "Removed object files\n"
+	@$(PRINTF) "Removed object files\n"
 
 fclean: clean
 	$(RM) -r $(BIN_DIR)
-	$(PRINTF) "Removed $(NAME)\n"
+	@$(PRINTF) "Removed $(NAME)\n"
 
 re: fclean all
 

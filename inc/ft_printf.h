@@ -17,6 +17,7 @@
 # include "libft.h"
 
 /* Custom printf function*/
-int	ft_printf(const char *format);
+int	ft_printf(const char *format, ...);
+int	ft_parse_specifier(char **format, va_list ap);
 
 #endif

@@ -48,18 +48,13 @@ LINK=gcc
 DEPEND=gcc -MM -MG -MF
 CFLAGS=-I. -I$(PATHU) -I$(PATHI) -I$(PATHL) -DTEST
 
-RESULTS = $(patsubst $(PATHT)test_%.c,$(PATHR)test_%.txt,$(SRCT) )
+RESULTS = $(patsubst $(PATHT)test_%.c,$(PATHR)test_%.txt,$(SRCT))
 
 PASSED = `grep -s PASS $(PATHR)*.txt`
 FAIL = `grep -s FAIL $(PATHR)*.txt`
 IGNORE = `grep -s IGNORE $(PATHR)*.txt`
 
-debug:
-	@echo "SRCT = $(SRCT)"
-	@echo "BUILD_PATHS = $(BUILD_PATHS)"
-	@echo "BUILD_PATHS = $(BUILD_PATHS)"
-
-all: $(BUILD_PATHS) $(RESULTS)
+all: $(PATHU) $(BUILD_PATHS) $(RESULTS)
 	@echo "-----------------------\nIGNORES:\n-----------------------"
 	@echo "$(IGNORE)"
 	@echo "-----------------------\nFAILURES:\n-----------------------"
@@ -80,8 +75,13 @@ $(PATHO)%.o:: $(PATHT)%.c
 $(PATHO)%.o:: $(PATHS)%.c
 	$(COMPILE) $(CFLAGS) $< -o $@
 
-$(PATHO)%.o:: $(PATHU)%.c $(PATHU)%.h
+$(PATHO)%.o:: $(PATHU)%.c | $(PATHU)
 	$(COMPILE) $(CFLAGS) $< -o $@
+
+$(PATHU):
+	@echo "Unity framework not found. Downloading it.."
+	@git clone https://github.com/ThrowTheSwitch/Unity.git unity
+	@echo "Unity downloaded succescfully!"
 
 $(PATHD)%.d:: $(PATHT)%.c
 	$(DEPEND) $@ $<
