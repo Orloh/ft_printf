@@ -1,6 +1,7 @@
-obj/ft_printf.o: src/ft_printf.c /usr/include/stdc-predef.h \
- inc/ft_printf.h /usr/lib/gcc/x86_64-linux-gnu/9/include/stdarg.h \
- libft/libft.h /usr/include/unistd.h /usr/include/features.h \
+obj/ft_parse_specifier.o: src/ft_parse_specifier.c \
+ /usr/include/stdc-predef.h inc/ft_printf.h \
+ /usr/lib/gcc/x86_64-linux-gnu/9/include/stdarg.h libft/libft.h \
+ /usr/include/unistd.h /usr/include/features.h \
  /usr/include/x86_64-linux-gnu/sys/cdefs.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
  /usr/include/x86_64-linux-gnu/bits/long-double.h \

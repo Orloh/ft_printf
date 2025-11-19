@@ -6,7 +6,7 @@
 #    By: orhernan <ohercelli@gmail.com>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/13 17:19:15 by orhernan          #+#    #+#              #
-#    Updated: 2025/11/13 23:37:42 by orhernan         ###   ########.fr        #
+#    Updated: 2025/11/19 20:48:41 by orhernan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ AR		= ar rcs
 PRINTF		= printf
 
 # Source and object files
-SRC		= $(SRC_DIR)/ft_printf.c
+SRC		= $(addprefix $(SRC_DIR)/, ft_printf.c ft_parse_specifier.c)
 OBJ 		= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
 DEP		= $(OBJ:.o=.d)
 

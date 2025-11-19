@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_parse_specifier.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: orhernan <ohercelli@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/13 17:05:15 by orhernan          #+#    #+#             */
-/*   Updated: 2025/11/19 20:52:26 by orhernan         ###   ########.fr       */
+/*   Created: 2025/11/19 20:19:48 by orhernan          #+#    #+#             */
+/*   Updated: 2025/11/19 20:52:50 by orhernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "ft_printf.h"
 
-# include <stdarg.h>
-# include "libft.h"
+int	ft_parse_specifier(const char **format, va_list ap)
+{
+	int	count;
 
-/* Custom printf function*/
-int	ft_printf(const char *format, ...);
-int	ft_parse_specifier(const char **format, va_list ap);
-int	ft_print_char(int c);
+	count = 0;
+	/*Specifiers cspdiuxX%*/
+	if (**format == 'c')
+		count += ft_print_char(va_arg(ap, int));
+	return (count);
+}
 
-#endif
+int	ft_print_char(int c) 
+{
+	(void) c;
+	return (0);
+}

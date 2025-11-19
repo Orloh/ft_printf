@@ -50,18 +50,18 @@ CFLAGS=-I. -I$(PATHU) -I$(PATHI) -I$(PATHL) -DTEST
 
 RESULTS = $(patsubst $(PATHT)test_%.c,$(PATHR)test_%.txt,$(SRCT))
 
-PASSED = `grep -s PASS $(PATHR)*.txt`
-FAIL = `grep -s FAIL $(PATHR)*.txt`
-IGNORE = `grep -s IGNORE $(PATHR)*.txt`
+RESULT_FILES = $(PATHR)*.txt
 
 all: $(PATHU) $(BUILD_PATHS) $(RESULTS)
-	@echo "-----------------------\nIGNORES:\n-----------------------"
-	@echo "$(IGNORE)"
-	@echo "-----------------------\nFAILURES:\n-----------------------"
+	@echo "-----------------------------------------------------------"
+	@cat $(RESULT_FILES)
+	@echo "-----------------------------------------------------------"
+	@grep -c "PASS"		$(RESULT_FILES) | awk '{sum += $$1} END {print "  PASSED:  " sum}'
+	@grep -c "FAIL"		$(RESULT_FILES) | awk '{sum += $$1} END {print "  FAILED:  " sum}'
+	@grep -c "IGNORE"	$(RESULT_FILES) | awk '{sum += $$1} END {print "  IGNORED:  " sum}'
 	@echo "$(FAIL)"
-	@echo "-----------------------\nPASSED:\n-----------------------"
-	@echo "$(PASSED)"
-	@echo "\nDONE"
+
+	@echo "-----------------------------------------------------------"
 
 $(PATHR)%.txt: $(PATHB)%.$(TARGET_EXTENSION)
 	-./$< > $@ 2>&1
@@ -103,7 +103,7 @@ clean:
 	$(CLEANUP) $(PATHB)*.$(TARGET_EXTENSION)
 	$(CLEANUP) $(PATHR)*.txt
 
-.PRECIOUS: $(PATHB)Test%.$(TARGET_EXTENSION)
+.PRECIOUS: $(PATHB)test_%.$(TARGET_EXTENSION)
 .PRECIOUS: $(PATHD)%.d
 .PRECIOUS: $(PATHO)%.o
 .PRECIOUS: $(PATHR)%.txt

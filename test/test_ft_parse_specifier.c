@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   test_ft_parse_specifier.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: orhernan <ohercelli@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/13 17:05:15 by orhernan          #+#    #+#             */
-/*   Updated: 2025/11/19 20:52:26 by orhernan         ###   ########.fr       */
+/*   Created: 2025/11/19 20:53:52 by orhernan          #+#    #+#             */
+/*   Updated: 2025/11/19 23:44:11 by orhernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "unity.h"
+#include "ft_printf.h"
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
 
-# include <stdarg.h>
-# include "libft.h"
-
-/* Custom printf function*/
-int	ft_printf(const char *format, ...);
-int	ft_parse_specifier(const char **format, va_list ap);
-int	ft_print_char(int c);
-
-#endif
+void	setUp(void) {}
+void	tearDown(void) {}
