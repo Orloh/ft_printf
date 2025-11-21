@@ -40,9 +40,24 @@ void	test_ft_parse_specifier_char(void)
 	test_with_args_and_ptr_move(1, "c", 127);
 }
 
+void	test_ft_parse_specifier_string(void)
+{
+	test_with_args_and_ptr_move(12, "s", "Hello World!");
+	test_with_args_and_ptr_move(0, "s", "");
+	test_with_args_and_ptr_move(1, "s", " ");
+	test_with_args_and_ptr_move(19, "s", "My name is Orlando\n");
+}
+
+void	test_ft_parse_specifier_percent(void)
+{
+	test_with_args_and_ptr_move(1, "%", '%');
+}
+
 int	main(void)
 {
 	UNITY_BEGIN();
 	RUN_TEST(test_ft_parse_specifier_char);
+	RUN_TEST(test_ft_parse_specifier_string);
+	RUN_TEST(test_ft_parse_specifier_percent);
 	return UNITY_END();
 }
