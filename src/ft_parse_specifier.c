@@ -20,6 +20,10 @@ int	ft_parse_specifier(const char **format, va_list ap)
 	/*Specifiers cspdiuxX%*/
 	if (**format == 'c')
 		count += ft_print_char(va_arg(ap, int));
+	else if (**format == 's')
+		count += ft_print_str(va_arg(ap, char *));
+	else if (**format == '%')
+		count += ft_print_char('\%');
 	(*format)++;
 	return (count);
 }
@@ -28,4 +32,10 @@ int	ft_print_char(int c)
 {
 	ft_putchar_fd((char)c, STDOUT_FILENO);
 	return (1);
+}
+
+int	ft_print_str(char *str)
+{
+	ft_putstr_fd(str, STDOUT_FILENO);
+	return (ft_strlen(str));
 }
