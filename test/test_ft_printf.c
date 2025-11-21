@@ -137,7 +137,7 @@ void	test_ft_printf_char(void)
 int	main(void)
 {
 	UNITY_BEGIN();
-	//RUN_TEST(test_ft_printf_no_specifiers);
+	RUN_TEST(test_ft_printf_no_specifiers);
 	RUN_TEST(test_ft_printf_char);
 	return UNITY_END();
 }

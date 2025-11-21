@@ -53,18 +53,15 @@ RESULTS = $(patsubst $(PATHT)test_%.c,$(PATHR)test_%.txt,$(SRCT))
 RESULT_FILES = $(PATHR)*.txt
 
 all: $(PATHU) $(BUILD_PATHS) $(RESULTS)
-	@echo "-----------------------------------------------------------"
 	@cat $(RESULT_FILES)
-	@echo "-----------------------------------------------------------"
-	@grep -c "PASS"		$(RESULT_FILES) | awk '{sum += $$1} END {print "  PASSED:  " sum}'
-	@grep -c "FAIL"		$(RESULT_FILES) | awk '{sum += $$1} END {print "  FAILED:  " sum}'
-	@grep -c "IGNORE"	$(RESULT_FILES) | awk '{sum += $$1} END {print "  IGNORED:  " sum}'
-	@echo "$(FAIL)"
-
-	@echo "-----------------------------------------------------------"
 
 $(PATHR)%.txt: $(PATHB)%.$(TARGET_EXTENSION)
-	-./$< > $@ 2>&1
+	@{\
+		echo "===[ $$(basename $< .$(TARGET_EXTENSION)).c]===";	\
+		echo;							\
+		./$< 2>&1 || true;					\
+		echo;							\
+	} > $@.tmp && mv $@.tmp $@
 
 $(PATHB)test_%.$(TARGET_EXTENSION): $(PATHO)test_%.o $(PATHO)unity.o $(BIN)
 	$(LINK) -o $@ $^
