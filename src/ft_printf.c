@@ -33,9 +33,8 @@ int	ft_printf(const char *format, ...)
 		{	
 			ft_putchar_fd(*format, 1);
 			count++;
-		}
-		if (*format)
 			format++;
+		}
 	}
 	va_end(ap);
 	return (count);

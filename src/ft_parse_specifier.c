@@ -20,11 +20,12 @@ int	ft_parse_specifier(const char **format, va_list ap)
 	/*Specifiers cspdiuxX%*/
 	if (**format == 'c')
 		count += ft_print_char(va_arg(ap, int));
+	(*format)++;
 	return (count);
 }
 
 int	ft_print_char(int c) 
 {
-	(void) c;
-	return (0);
+	ft_putchar_fd((char)c, STDOUT_FILENO);
+	return (1);
 }
