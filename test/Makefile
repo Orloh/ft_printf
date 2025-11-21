@@ -44,9 +44,9 @@ BUILD_PATHS = $(PATHB) $(PATHD) $(PATHO) $(PATHR)
 SRCT = $(wildcard $(PATHT)*.c)
 
 COMPILE=gcc -c
-LINK=gcc
+LINK=gcc -g -O0
 DEPEND=gcc -MM -MG -MF
-CFLAGS=-I. -I$(PATHU) -I$(PATHI) -I$(PATHL) -DTEST
+CFLAGS=-I. -I$(PATHU) -I$(PATHI) -I$(PATHL) -DTEST -g -O0
 
 RESULTS = $(patsubst $(PATHT)test_%.c,$(PATHR)test_%.txt,$(SRCT))
 

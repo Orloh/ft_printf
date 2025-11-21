@@ -25,7 +25,7 @@ LIBFT		= $(LIBFT_DIR)/libft.a
 
 # Tools & Flags
 CC		= cc
-CFLAGS		= -Wall -Wextra -Werror -MD -I$(INC_DIR) -I$(LIBFT_DIR)
+CFLAGS		= -Wall -Wextra -Werror -MD -I$(INC_DIR) -I$(LIBFT_DIR) -g -O0
 RM		= rm -f
 AR		= ar rcs
 PRINTF		= printf

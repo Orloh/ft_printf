@@ -31,6 +31,7 @@ static printf_result_t	capture_printf(int (*printf_func)(const char*, ...), cons
 	int		pipefd[2];
 	int		old_stdout;
 
+	fflush(stdout);
 	old_stdout = dup(STDOUT_FILENO);
 	if (old_stdout == -1)
 		return (result);
@@ -88,39 +89,39 @@ void	test_ft_printf_no_specifiers(void)
 	printf_result_t	result2 = capture_printf(ft_printf, format);
 
 	TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
-	TEST_ASSERT_EQUAL_STRING(result2.buffer, result2.buffer);
+	TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
 
-	int		backup_fd;
-	backup_fd = dup(STDOUT_FILENO);
-	TEST_ASSERT_NOT_EQUAL(-1, backup_fd);
+	//int		backup_fd;
+	//backup_fd = dup(STDOUT_FILENO);
+	//TEST_ASSERT_NOT_EQUAL(-1, backup_fd);
 
-	char		buffer1[128] = {0};
-	char		buffer2[128] = {0};
-	int 		num1, num2;
-	
-	int		pipe1[2];
-	TEST_ASSERT_EQUAL(0, pipe(pipe1));
-	TEST_ASSERT_NOT_EQUAL(-1, dup2(pipe1[1], STDOUT_FILENO));
-	close(pipe1[1]);
-	num1 = ft_printf(format);
-	fflush(stdout);
-	read(pipe1[0], buffer1, sizeof(buffer1) - 1);
-	close(pipe1[0]);
-	TEST_ASSERT_NOT_EQUAL(-1, dup2(backup_fd, STDOUT_FILENO));
+	//char		buffer1[128] = {0};
+	//char		buffer2[128] = {0};
+	//int 		num1, num2;
+	//
+	//int		pipe1[2];
+	//TEST_ASSERT_EQUAL(0, pipe(pipe1));
+	//TEST_ASSERT_NOT_EQUAL(-1, dup2(pipe1[1], STDOUT_FILENO));
+	//close(pipe1[1]);
+	//num1 = ft_printf(format);
+	//fflush(stdout);
+	//read(pipe1[0], buffer1, sizeof(buffer1) - 1);
+	//close(pipe1[0]);
+	//TEST_ASSERT_NOT_EQUAL(-1, dup2(backup_fd, STDOUT_FILENO));
 
-	int		pipe2[2];
-	TEST_ASSERT_EQUAL(0, pipe(pipe2));
-	TEST_ASSERT_NOT_EQUAL(-1, dup2(pipe2[1], STDOUT_FILENO));
-	close(pipe2[1]);
-	num2 = ft_printf(format);
-	fflush(stdout);
-	read(pipe2[0], buffer2, sizeof(buffer2) - 1);
-	close(pipe2[0]);
-	TEST_ASSERT_NOT_EQUAL(-1, dup2(backup_fd, STDOUT_FILENO));
-	close(backup_fd);
+	//int		pipe2[2];
+	//TEST_ASSERT_EQUAL(0, pipe(pipe2));
+	//TEST_ASSERT_NOT_EQUAL(-1, dup2(pipe2[1], STDOUT_FILENO));
+	//close(pipe2[1]);
+	//num2 = ft_printf(format);
+	//fflush(stdout);
+	//read(pipe2[0], buffer2, sizeof(buffer2) - 1);
+	//close(pipe2[0]);
+	//TEST_ASSERT_NOT_EQUAL(-1, dup2(backup_fd, STDOUT_FILENO));
+	//close(backup_fd);
 
-	TEST_ASSERT_EQUAL_INT(num2, num1);
-	TEST_ASSERT_EQUAL_STRING(buffer2, buffer1);
+	//TEST_ASSERT_EQUAL_INT(num2, num1);
+	//TEST_ASSERT_EQUAL_STRING(buffer2, buffer1);
 }
 
 void	test_ft_printf_char(void)
@@ -137,8 +138,8 @@ void	test_ft_printf_char(void)
 int	main(void)
 {
 	UNITY_BEGIN();
-	RUN_TEST(test_ft_printf_no_specifiers);
 	RUN_TEST(test_ft_printf_char);
+	RUN_TEST(test_ft_printf_no_specifiers);
 	return UNITY_END();
 }
 
