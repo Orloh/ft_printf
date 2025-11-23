@@ -26,13 +26,11 @@ int	ft_printf(const char *format, ...)
 		if (*format == '%')
 		{
 			format++;
-			if (*format)
-				count += ft_parse_specifier(&format, ap);
+			count += ft_parse_specifier(&format, ap);
 		}
 		else
 		{	
-			ft_putchar_fd(*format, 1);
-			count++;
+			count += ft_print_char(*format);
 			format++;
 		}
 	}

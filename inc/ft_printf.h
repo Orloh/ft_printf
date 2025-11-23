@@ -21,5 +21,6 @@ int	ft_printf(const char *format, ...);
 int	ft_parse_specifier(const char **format, va_list ap);
 int	ft_print_char(int c);
 int	ft_print_str(char *str);
+int	ft_print_ptr(void *ptr);
 
 #endif

@@ -153,6 +153,7 @@ int	main(void)
 	RUN_TEST(test_ft_printf_no_specifiers);
 	RUN_TEST(test_ft_printf_char);
 	RUN_TEST(test_ft_printf_str);
+	RUN_TEST(test_ft_printf_ptr);
 	return UNITY_END();
 }
 

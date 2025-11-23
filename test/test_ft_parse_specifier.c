@@ -53,11 +53,25 @@ void	test_ft_parse_specifier_percent(void)
 	test_with_args_and_ptr_move(1, "%", '%');
 }
 
+void	test_ft_parse_specifier_pointer(void)
+{
+	void	*ptr1 = (void *)0x12345678;
+	void	*ptr2 = NULL;
+	void	*ptr3 = &ptr1;
+	int	dummy = 42;
+	
+	test_with_args_and_ptr_move(10, "p", ptr1);
+	test_with_args_and_ptr_move(5, "p", ptr2);
+	test_with_args_and_ptr_move(14, "p", ptr3);
+	test_with_args_and_ptr_move(14, "p", &dummy);
+}
+
 int	main(void)
 {
 	UNITY_BEGIN();
 	RUN_TEST(test_ft_parse_specifier_char);
 	RUN_TEST(test_ft_parse_specifier_string);
 	RUN_TEST(test_ft_parse_specifier_percent);
+	RUN_TEST(test_ft_parse_specifier_pointer);
 	return UNITY_END();
 }
