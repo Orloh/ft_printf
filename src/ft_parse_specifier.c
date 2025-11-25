@@ -12,6 +12,7 @@
 
 #include "ft_printf.h"
 #define LOWHEXBASE "0123456789abcdef"
+#define MAX_DIGITS 65
 
 int	ft_parse_specifier(const char **format, va_list ap)
 {
@@ -24,7 +25,7 @@ int	ft_parse_specifier(const char **format, va_list ap)
 	else if (**format == 's')
 		count += ft_print_str(va_arg(ap, char *));
 	else if (**format == 'p')
-		count += ft_print_ptr(va_arg(ap, size_t));
+		count += ft_print_ptr(va_arg(ap, void *));
 	else if (**format == '%')
 		count += ft_print_char('\%');
 	(*format)++;
@@ -67,43 +68,48 @@ int	ft_base_check(char *base)
 	return (i);
 }
 
-int	ft_putnbr_base_fd(intmax_t nbr, char *base, int fd)
+int	ft_putunbr_base_fd(uintmax_t nbr, const char *base, int fd, int is_negative)
 {
-	int	i;
-	int	base_len;
-	int	nbr_str[500];
-	int	count;
+	char		buffer[MAX_DIGITS];
+	int		base_len;
+	int		count;
+	int		i;
 
 	i = 0;
 	count = 0;
-	base_len = ft_base_check(base);
-	if (base_len)
+	base_len = ft_base_check((char *)base);
+	if (is_negative)
 	{
-		if (nbr < 0)
-		{
-			nbr = -nbr;
-			count += write(fd,"-", 1);
-		}
-		while (nbr)
-		{
-			nbr_str[i] = nbr % base_len;
-			nbr = nbr / base_len;
-			i++;
-		}
-		while (i-- > 0)
-			count += write(fd, &base[nbr_str[i]], 1);
+		ft_putchar_fd('-', fd);
+		count++;
+	}
+	if (nbr == 0)
+		return (ft_putchar_fd(base[0], fd), count++);
+	while (nbr > 0)
+	{
+		buffer[i++] = base[nbr % base_len];
+		nbr /= base_len;
+	}
+	while (i > 0)
+	{
+		ft_putchar_fd(buffer[i--], fd);
+		count++;
 	}
 	return (count);
 }
 
-ssize_t	ft_putnbr_base_fd(intmax_t nbr, char *base, int fd)
+int	ft_putnbr_base_fd(intmax_t nbr, const char *base, int fd)
 {
-	if (n < 0)
-		return (ft_putunbr_base(-n, base, fd, 1);
-	return ft_putunbr_base(n, base, fd, 0);
+	if (nbr < 0)
+	{
+		if (nbr == INTMAX_MIN)
+			return (ft_putunbr_base_fd((uintmax_t)INTMAX_MAX + 1, base, fd, 1));
+		return (ft_putunbr_base_fd((uintmax_t)-nbr, base, fd, 1));
+	}
+	return ft_putunbr_base_fd((uintmax_t)nbr, base, fd, 0);
 }
 
-			int	ft_print_hex(size_t nbr)
+int	ft_print_hex(uintmax_t nbr)
 {
 	int	count;
 
@@ -114,13 +120,13 @@ ssize_t	ft_putnbr_base_fd(intmax_t nbr, char *base, int fd)
 
 int	ft_print_ptr(void *ptr)
 {
-	long long	addr;
+	uintptr_t	ptr_addr;
 	int		count;
 
 	if (!ptr)
 		return (ft_print_str("(nil)"));
-	addr = (long long)ptr;
-	count = ft_print_hex(addr);
+	ptr_addr = (uintptr_t)ptr;
+	count = ft_print_hex(ptr_addr);
 	ft_print_char('\n');
 	return (count);
 }
