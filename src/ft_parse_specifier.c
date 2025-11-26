@@ -6,12 +6,14 @@
 /*   By: orhernan <ohercelli@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 20:19:48 by orhernan          #+#    #+#             */
-/*   Updated: 2025/11/19 20:52:50 by orhernan         ###   ########.fr       */
+/*   Updated: 2025/11/27 00:31:33 by orhernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #define LOWHEXBASE "0123456789abcdef"
+#define UPPERHEXBASE "0123456789ABCDEF"
+#define DECBASE "0123456789"
 #define MAX_DIGITS 65
 
 int	ft_parse_specifier(const char **format, va_list ap)
@@ -26,22 +28,19 @@ int	ft_parse_specifier(const char **format, va_list ap)
 		count += ft_print_str(va_arg(ap, char *));
 	else if (**format == 'p')
 		count += ft_print_ptr(va_arg(ap, void *));
+	else if (**format == 'd' || **format == 'i')
+		count += ft_print_int(va_arg(ap, int));
 	else if (**format == '%')
 		count += ft_print_char('\%');
 	(*format)++;
 	return (count);
 }
 
-int	ft_print_char(int c) 
-{
-	ft_putchar_fd((char)c, STDOUT_FILENO);
-	return (1);
-}
+int	ft_putnbr_base_fd(intmax_t nbr, const char *base, int fd);
 
-int	ft_print_str(char *str)
+int	ft_print_int(int nbr)
 {
-	ft_putstr_fd(str, STDOUT_FILENO);
-	return (ft_strlen(str));
+	return (ft_putnbr_base_fd(nbr, DECBASE, STDOUT_FILENO));
 }
 
 int	ft_base_check(char *base)
@@ -84,7 +83,7 @@ int	ft_putunbr_base_fd(uintmax_t nbr, const char *base, int fd, int is_negative)
 		count++;
 	}
 	if (nbr == 0)
-		return (ft_putchar_fd(base[0], fd), count++);
+		return (ft_putchar_fd(base[0], fd), ++count);
 	while (nbr > 0)
 	{
 		buffer[i++] = base[nbr % base_len];
@@ -92,7 +91,7 @@ int	ft_putunbr_base_fd(uintmax_t nbr, const char *base, int fd, int is_negative)
 	}
 	while (i > 0)
 	{
-		ft_putchar_fd(buffer[i--], fd);
+		ft_putchar_fd(buffer[--i], fd);
 		count++;
 	}
 	return (count);
@@ -102,11 +101,11 @@ int	ft_putnbr_base_fd(intmax_t nbr, const char *base, int fd)
 {
 	if (nbr < 0)
 	{
-		if (nbr == INTMAX_MIN)
-			return (ft_putunbr_base_fd((uintmax_t)INTMAX_MAX + 1, base, fd, 1));
+		if (nbr == INT_MIN)
+			return (ft_putunbr_base_fd((uintmax_t)INT_MAX + 1, base, fd, 1));
 		return (ft_putunbr_base_fd((uintmax_t)-nbr, base, fd, 1));
 	}
-	return ft_putunbr_base_fd((uintmax_t)nbr, base, fd, 0);
+	return (ft_putunbr_base_fd((uintmax_t)nbr, base, fd, 0));
 }
 
 int	ft_print_hex(uintmax_t nbr)
@@ -114,7 +113,7 @@ int	ft_print_hex(uintmax_t nbr)
 	int	count;
 
 	count = ft_print_str("0x");
-	count += ft_putnbr_base_fd(nbr, LOWHEXBASE, STDOUT_FILENO);
+	count += ft_putunbr_base_fd(nbr, LOWHEXBASE, STDOUT_FILENO, 0);
 	return (count);
 }
 
@@ -127,6 +126,5 @@ int	ft_print_ptr(void *ptr)
 		return (ft_print_str("(nil)"));
 	ptr_addr = (uintptr_t)ptr;
 	count = ft_print_hex(ptr_addr);
-	ft_print_char('\n');
 	return (count);
 }

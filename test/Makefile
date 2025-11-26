@@ -37,7 +37,7 @@ PATHD = build/depends/
 PATHO = build/objs/
 PATHR = build/results/
 
-BIN = ../bin/libftprintf.a
+BIN = ../libftprintf.a
 
 BUILD_PATHS = $(PATHB) $(PATHD) $(PATHO) $(PATHR)
 

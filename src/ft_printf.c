@@ -6,7 +6,7 @@
 /*   By: orhernan <ohercelli@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 15:07:43 by orhernan          #+#    #+#             */
-/*   Updated: 2025/11/19 20:41:35 by orhernan         ###   ########.fr       */
+/*   Updated: 2025/11/25 23:52:17 by orhernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,21 @@
 int	ft_printf(const char *format, ...)
 {
 	int		count;
-	va_list	ap;
+	va_list	args;
+
+	va_start(args, format);
+	count = ft_vprintf(format, args);
+	va_end(args);
+	return (count);
+}
+
+int	ft_vprintf(const char *format, va_list ap)
+{
+	int		count;
 
 	if (!format)
 		return (-1);
 	count = 0;
-	va_start(ap, format);
 	while (*format)
 	{
 		if (*format == '%')
@@ -34,6 +43,5 @@ int	ft_printf(const char *format, ...)
 			format++;
 		}
 	}
-	va_end(ap);
 	return (count);
 }

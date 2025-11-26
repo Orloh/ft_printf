@@ -6,7 +6,7 @@
 #    By: orhernan <ohercelli@gmail.com>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/13 17:19:15 by orhernan          #+#    #+#              #
-#    Updated: 2025/11/19 20:48:41 by orhernan         ###   ########.fr        #
+#    Updated: 2025/11/25 23:20:31 by orhernan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ LIBFT_DIR	= libft
 
 # Files
 BIN		= libftprintf.a
-NAME		= $(BIN_DIR)/$(BIN)
+NAME		= libftprintf.a
 LIBFT		= $(LIBFT_DIR)/libft.a
 
 # Tools & Flags
@@ -31,7 +31,9 @@ AR		= ar rcs
 PRINTF		= printf
 
 # Source and object files
-SRC		= $(addprefix $(SRC_DIR)/, ft_printf.c ft_parse_specifier.c)
+SRC		= $(addprefix $(SRC_DIR)/,	\
+		  ft_printf.c	ft_parse_specifier.c	ft_print_char.c 	\
+		  ft_print_str.c)
 OBJ 		= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
 DEP		= $(OBJ:.o=.d)
 
@@ -56,7 +58,7 @@ $(NAME): $(LIBFT) $(OBJ) | $(BIN_DIR)
 # Targets
 all: $(NAME)
 
-clean: | $(LIBFT_DIR)
+clean:
 	@$(PRINTF) "Cleaning up object files in ft_printf...\n\n"
 	$(MAKE) clean -C $(LIBFT_DIR) || true
 	$(RM) -r $(OBJ_DIR)
@@ -64,6 +66,7 @@ clean: | $(LIBFT_DIR)
 
 fclean: clean
 	$(RM) -r $(BIN_DIR)
+	$(MAKE) fclean -C $(LIBFT_DIR) || true
 	@$(PRINTF) "Removed $(NAME)\n"
 
 re: fclean all

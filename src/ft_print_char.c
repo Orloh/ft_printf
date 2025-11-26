@@ -1,28 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_print_char.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: orhernan <ohercelli@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/13 17:05:15 by orhernan          #+#    #+#             */
-/*   Updated: 2025/11/26 01:46:58 by orhernan         ###   ########.fr       */
+/*   Created: 2025/11/25 14:33:48 by orhernan          #+#    #+#             */
+/*   Updated: 2025/11/25 23:06:43 by orhernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "ft_printf.h"
 
-# include <stdarg.h>
-# include "libft.h"
-
-/* Custom printf function*/
-int	ft_printf(const char *format, ...);
-int	ft_vprintf(const char *format, va_list ap);
-int	ft_parse_specifier(const char **format, va_list ap);
-int	ft_print_char(int c);
-int	ft_print_str(char *str);
-int	ft_print_ptr(void *ptr);
-int	ft_print_int(int nbr);
-
-#endif
+int	ft_print_char(int c)
+{
+	ft_putchar_fd((char)c, STDOUT_FILENO);
+	return (1);
+}
