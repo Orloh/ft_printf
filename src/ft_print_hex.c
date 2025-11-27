@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_print_hex.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: orhernan <ohercelli@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/16 22:14:11 by orhernan          #+#    #+#             */
-/*   Updated: 2025/11/27 00:36:42 by orhernan         ###   ########.fr       */
+/*   Created: 2025/11/27 00:54:35 by orhernan          #+#    #+#             */
+/*   Updated: 2025/11/27 02:29:08 by orhernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-void	*ft_calloc(size_t count, size_t size)
+int	ft_print_hex(uintmax_t nbr, int is_lowbase)
 {
-	void	*tmp;
-	size_t	total;
+	int	count;
 
-	total = count * size;
-	if (count <= 0 || total / count != size)
-		return (NULL);
-	tmp = malloc (total);
-	if (!tmp)
-		return (NULL);
-	ft_bzero(tmp, total);
-	return (tmp);
+	if (is_lowbase)
+		count = ft_putunbr_base_fd(nbr, LOWHEXBASE, STDOUT_FILENO, 0);
+	else
+		count = ft_putunbr_base_fd(nbr, UPPERHEXBASE, STDOUT_FILENO, 0);
+	return (count);
 }

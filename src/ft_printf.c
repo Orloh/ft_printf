@@ -6,7 +6,7 @@
 /*   By: orhernan <ohercelli@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 15:07:43 by orhernan          #+#    #+#             */
-/*   Updated: 2025/11/25 23:52:17 by orhernan         ###   ########.fr       */
+/*   Updated: 2025/11/27 00:34:55 by orhernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	ft_vprintf(const char *format, va_list ap)
 			count += ft_parse_specifier(&format, ap);
 		}
 		else
-		{	
+		{
 			count += ft_print_char(*format);
 			format++;
 		}

@@ -6,7 +6,7 @@
 /*   By: orhernan <ohercelli@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:10:01 by orhernan          #+#    #+#             */
-/*   Updated: 2025/11/26 01:46:55 by orhernan         ###   ########.fr       */
+/*   Updated: 2025/11/27 02:29:02 by orhernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,6 +219,29 @@ void	test_ft_printf_int_dec(void)
 	}
 }
 
+void	test_ft_printf_hex(void)
+{
+	int	hex1 = 4;
+	// Test hex lowbase
+	{
+		printf_result_t	result1 = capture_vprintf(vprintf, "Hexlow: %x\n", hex1);
+		printf_result_t	result2 = capture_vprintf(ft_vprintf, "Hexlow: %x\n", hex1);
+
+		TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
+		TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
+		TEST_MESSAGE("\t[PASS] Lowbase test completed.");
+	}
+	// Test hex upperbase
+	{
+		printf_result_t	result1 = capture_vprintf(vprintf, "Hexupper: %X\n", hex1);
+		printf_result_t	result2 = capture_vprintf(ft_vprintf, "Hexupper: %X\n", hex1);
+
+		TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
+		TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
+		TEST_MESSAGE("\t[PASS] Lowbase test completed.");
+	}
+}
+
 int	main(void)
 {
 	UNITY_BEGIN();
@@ -227,6 +250,7 @@ int	main(void)
 	RUN_TEST(test_ft_printf_str);
 	RUN_TEST(test_ft_printf_ptr);
 	RUN_TEST(test_ft_printf_int_dec);
+	RUN_TEST(test_ft_printf_hex);
 	return UNITY_END();
 }
 

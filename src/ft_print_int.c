@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_print_int.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: orhernan <ohercelli@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/16 22:14:11 by orhernan          #+#    #+#             */
-/*   Updated: 2025/11/27 00:36:42 by orhernan         ###   ########.fr       */
+/*   Created: 2025/11/27 01:18:50 by orhernan          #+#    #+#             */
+/*   Updated: 2025/11/27 01:19:27 by orhernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-void	*ft_calloc(size_t count, size_t size)
+int	ft_print_int(int nbr)
 {
-	void	*tmp;
-	size_t	total;
-
-	total = count * size;
-	if (count <= 0 || total / count != size)
-		return (NULL);
-	tmp = malloc (total);
-	if (!tmp)
-		return (NULL);
-	ft_bzero(tmp, total);
-	return (tmp);
+	return (ft_putnbr_base_fd(nbr, DECBASE, STDOUT_FILENO));
 }
