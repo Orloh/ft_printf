@@ -6,7 +6,7 @@
 /*   By: orhernan <ohercelli@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 20:19:48 by orhernan          #+#    #+#             */
-/*   Updated: 2025/11/27 02:29:01 by orhernan         ###   ########.fr       */
+/*   Updated: 2025/11/28 13:35:56 by orhernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,8 @@ int	ft_parse_specifier(const char **format, va_list ap)
 		count += ft_print_hex(va_arg(ap, unsigned int), 0);
 	else if (**format == '%')
 		count += ft_print_char('%');
+	else
+		return (ft_print_char('%'));
 	(*format)++;
 	return (count);
-}
-
-int	ft_print_uint(uintmax_t unbr)
-{
-	return (ft_putunbr_base_fd(unbr, DECBASE, STDOUT_FILENO, 0));
 }

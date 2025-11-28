@@ -6,7 +6,7 @@
 /*   By: orhernan <ohercelli@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 20:53:52 by orhernan          #+#    #+#             */
-/*   Updated: 2025/11/25 15:41:31 by orhernan         ###   ########.fr       */
+/*   Updated: 2025/11/28 13:41:50 by orhernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,16 @@ void	test_ft_parse_specifier_pointer(void)
 	test_with_args_and_ptr_move(14, "p", &dummy);
 }
 
+void	test_ft_parse_specifier_integer(void)
+{
+	int	int1 = 1;
+	int	int2 = 12345;
+	int	int3 = -12345;
+	
+	test_with_args_and_ptr_move(1, "i", int1);
+	test_with_args_and_ptr_move(5, "i", int2);
+	test_with_args_and_ptr_move(6, "i", int3);
+}
 int	main(void)
 {
 	UNITY_BEGIN();
@@ -73,5 +83,6 @@ int	main(void)
 	RUN_TEST(test_ft_parse_specifier_string);
 	RUN_TEST(test_ft_parse_specifier_percent);
 	RUN_TEST(test_ft_parse_specifier_pointer);
+	RUN_TEST(test_ft_parse_specifier_integer);
 	return UNITY_END();
 }

@@ -6,7 +6,7 @@
 #    By: orhernan <ohercelli@gmail.com>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/13 17:19:15 by orhernan          #+#    #+#              #
-#    Updated: 2025/11/27 02:15:45 by orhernan         ###   ########.fr        #
+#    Updated: 2025/11/28 13:32:58 by orhernan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ PRINTF		= printf
 SRC		= $(addprefix $(SRC_DIR)/,	\
 		ft_printf.c	ft_parse_specifier.c	ft_print_char.c	\
 		ft_print_hex.c	ft_print_str.c		ft_print_ptr.c	\
-		ft_print_int.c	ft_putnbr_base_fd.c)
+		ft_print_int.c	ft_print_uint.c		ft_putnbr_base_fd.c)
 OBJ 		= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
 DEP		= $(OBJ:.o=.d)
 

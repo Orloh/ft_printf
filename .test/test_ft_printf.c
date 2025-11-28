@@ -6,7 +6,7 @@
 /*   By: orhernan <ohercelli@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 13:10:01 by orhernan          #+#    #+#             */
-/*   Updated: 2025/11/27 02:29:02 by orhernan         ###   ########.fr       */
+/*   Updated: 2025/11/28 14:40:19 by orhernan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,30 @@ static printf_result_t	capture_vprintf(int (*vprintf_func)(const char*, va_list)
 
 void	test_ft_printf_no_specifiers(void)
 {
-	const char 	*format = "Hello, world!\n";
+	struct {
+		const char	*format;
+		const char	*name;
+	} tests [] = {
+		{"Hello, world!\n", "basic"},
+		{"", "empty string"},
+		{"%\n", "lone percent (should print %)"},
+		{"%%%\n", "three percent signs"},
+		{"%% %%%% %%\n", "mix of %% andd spaces"},
+		{"Hello % world\n", "percent not followed by specifier (MUST print %)"},
+		{"%Z %K %123\n", "invalid specifiers (must print literaly"},
+		{NULL, NULL}
+	};
 
-	printf_result_t	result1 = capture_vprintf(vprintf, format);
-	printf_result_t	result2 = capture_vprintf(ft_vprintf, format);
+	for (int i = 0; tests[i].format; i++)
+	{
+		printf_result_t	result1 = capture_vprintf(vprintf, tests[i].format);
+		printf_result_t	result2 = capture_vprintf(ft_vprintf, tests[i].format);
 
-	TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
-	TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
+		TEST_MESSAGE(tests[i].name);
+		TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
+		TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
+		TEST_MESSAGE("\t[PASS] No-specifieer case passed");
+	}
 }
 
 void	test_ft_printf_char(void)
@@ -219,6 +236,80 @@ void	test_ft_printf_int_dec(void)
 	}
 }
 
+void	test_ft_printf_uint(void)
+{
+	int	u1 = 0;
+	int	u2 = 42;
+	int	u3 = 123456789;
+	int	u_max = UINT_MAX;
+	int	u_big = 4000000000U;
+	
+	// Test 0
+	{
+		printf_result_t	result1 = capture_vprintf(vprintf, "Unsigned zero: %u\n", u1);
+		printf_result_t	result2 = capture_vprintf(ft_vprintf, "Unsigned zero: %u\n", u1);
+
+		TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
+		TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
+		TEST_MESSAGE("\t[PASS] Unsigned zero test completed.");
+	}
+	// Test regular positive nums
+	{
+		printf_result_t	result1 = capture_vprintf(vprintf, "Number: %u\n", u2);
+		printf_result_t	result2 = capture_vprintf(ft_vprintf, "Number: %u\n", u2);
+
+		TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
+		TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
+		TEST_MESSAGE("\t[PASS] Regular unsigned number test completed.");
+	}
+	// Test medium-large number
+	{
+		printf_result_t	result1 = capture_vprintf(vprintf, "Big: %u\n", u3);
+		printf_result_t	result2 = capture_vprintf(ft_vprintf, "Big: %u\n", u3);
+
+		TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
+		TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
+		TEST_MESSAGE("\t[PASS] Medium-large unsigned test completed.");
+	}
+	// Test UINT_MAX
+	{
+		printf_result_t	result1 = capture_vprintf(vprintf, "UINT_MAX: %u\n", u_max);
+		printf_result_t	result2 = capture_vprintf(ft_vprintf, "UINT_MAX: %u\n", u_max);
+
+		TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
+		TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
+		TEST_MESSAGE("\t[PASS] UINT_MAX test completed.");
+	}
+	// Test value larger than INT_MAX
+	{
+		printf_result_t	result1 = capture_vprintf(vprintf, "Over UINT_MAX: %u\n", u_big);
+		printf_result_t	result2 = capture_vprintf(ft_vprintf, "Over UINT_MAX: %u\n", u_big);
+
+		TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
+		TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
+		TEST_MESSAGE("\t[PASS] Value > UINT_MAX test completed.");
+	}
+	// Test multiple %u in one call
+	{
+		printf_result_t	result1 = capture_vprintf(vprintf, "Multi: %u %u %u %u\n", u1, u2, u3, u_max);
+		printf_result_t	result2 = capture_vprintf(ft_vprintf, "Multi: %u %u %u %u\n", u1, u2, u3, u_max);
+
+		TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
+		TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
+		TEST_MESSAGE("\t[PASS] Multiple unsigned test completed.");
+	}
+	// Mixed with signed negative integers (common mistake)
+	{
+		int	negative = -42;
+		printf_result_t	result1 = capture_vprintf(vprintf, "Mixed: D %d | U %u\n", negative, negative);
+		printf_result_t	result2 = capture_vprintf(ft_vprintf, "Mixed: D %d | U %u\n", negative, negative);
+
+		TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
+		TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
+		TEST_MESSAGE("\t[PASS] Mixed signed | unsigned test completed.");
+	}
+}
+
 void	test_ft_printf_hex(void)
 {
 	int	hex1 = 4;
@@ -250,6 +341,7 @@ int	main(void)
 	RUN_TEST(test_ft_printf_str);
 	RUN_TEST(test_ft_printf_ptr);
 	RUN_TEST(test_ft_printf_int_dec);
+	RUN_TEST(test_ft_printf_uint);
 	RUN_TEST(test_ft_printf_hex);
 	return UNITY_END();
 }
