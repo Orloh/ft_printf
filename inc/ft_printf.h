@@ -29,8 +29,9 @@ int	ft_print_char(int c);
 int	ft_print_str(char *str);
 int	ft_print_ptr(void *ptr);
 int	ft_print_int(int nbr);
+int	ft_print_uint(uintmax_t nbr);
 int	ft_print_hex(uintmax_t nbr, int is_lowbase);
 int	ft_putnbr_base_fd(intmax_t nbr, const char *base, int fd);
-int	ft_putunbr_base_fd(uintmax_t nbr, const char *base, int fd, int is_negative);
+int	ft_putunbr_base_fd(uintmax_t nbr, const char *base, int fd, int is_neg);
 
 #endif

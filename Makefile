@@ -14,12 +14,10 @@
 SRC_DIR		= src
 INC_DIR		= inc
 OBJ_DIR		= obj
-BIN_DIR		= bin
-TEST_DIR	= test
+TEST_DIR	= .test
 LIBFT_DIR	= libft
 
 # Files
-BIN		= libftprintf.a
 NAME		= libftprintf.a
 LIBFT		= $(LIBFT_DIR)/libft.a
 
@@ -39,9 +37,6 @@ OBJ 		= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
 DEP		= $(OBJ:.o=.d)
 
 # Build Rules
-$(BIN_DIR):
-	mkdir -p $@
-
 $(OBJ_DIR):
 	mkdir -p $@
 
@@ -51,8 +46,8 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 $(LIBFT):
 	$(MAKE) all -C $(LIBFT_DIR)
 
-$(NAME): $(LIBFT) $(OBJ) | $(BIN_DIR)
-	$(PRINTF) "Creating $(BIN) ...\n"
+$(NAME): $(LIBFT) $(OBJ)
+	$(PRINTF) "Creating $(NAME) ...\n"
 	cp $(LIBFT) $(NAME)
 	$(AR) $(NAME) $(OBJ)
 
@@ -66,8 +61,9 @@ clean:
 	@$(PRINTF) "Removed object files\n"
 
 fclean: clean
-	$(RM) -r $(BIN_DIR)
 	$(MAKE) fclean -C $(LIBFT_DIR) || true
+	$(MAKE) clean -C $(TEST_DIR)
+	$(RM) $(NAME)
 	@$(PRINTF) "Removed $(NAME)\n"
 
 re: fclean all
