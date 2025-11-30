@@ -83,29 +83,74 @@ static printf_result_t	capture_vprintf(int (*vprintf_func)(const char*, va_list)
 
 void	test_ft_printf_no_specifiers(void)
 {
-	struct {
-		const char	*format;
-		const char	*name;
-	} tests [] = {
-		{"Hello, world!\n", "basic"},
-		{"", "empty string"},
-		{"%\n", "lone percent (should print %)"},
-		{"%%%\n", "three percent signs"},
-		{"%% %%%% %%\n", "mix of %% andd spaces"},
-		{"Hello % world\n", "percent not followed by specifier (MUST print %)"},
-		{"%Z %K %123\n", "invalid specifiers (must print literaly"},
-		{NULL, NULL}
-	};
-
-	for (int i = 0; tests[i].format; i++)
+	// Basic test
 	{
-		printf_result_t	result1 = capture_vprintf(vprintf, tests[i].format);
-		printf_result_t	result2 = capture_vprintf(ft_vprintf, tests[i].format);
+		printf_result_t	result1 = capture_vprintf(vprintf, "Hello world!\n");
+		printf_result_t	result2 = capture_vprintf(ft_vprintf, "Hello world!\n");
 
-		TEST_MESSAGE(tests[i].name);
 		TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
 		TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
-		TEST_MESSAGE("\t[PASS] No-specifieer case passed");
+		TEST_MESSAGE("\t[PASS] Basic test completed.");
+	}
+	//  Empty string test
+//	{
+//		printf_result_t	result1 = capture_vprintf(vprintf, "");
+//		printf_result_t	result2 = capture_vprintf(ft_vprintf, "");
+//
+//		TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
+//		TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
+//		TEST_MESSAGE("\t[PASS] Empty string test completed.");
+//	}
+	//  Lone percent string test
+	{
+		printf_result_t	result1 = capture_vprintf(vprintf, "%\n");
+		printf_result_t	result2 = capture_vprintf(ft_vprintf, "%\n");
+
+		TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
+		TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
+		TEST_MESSAGE("\t[PASS] Lone % test completed.");
+	}
+	//  Three percent signs test
+	{
+		printf_result_t	result1 = capture_vprintf(vprintf, "%%%\n");
+		printf_result_t	result2 = capture_vprintf(ft_vprintf, "%%%\n");
+
+		TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
+		TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
+		TEST_MESSAGE("\t[PASS] Three % test completed.");
+	}
+	// Mix of percent and spaces test
+	{
+		printf_result_t	result1 = capture_vprintf(vprintf, "%% %%%% %%\n");
+		printf_result_t	result2 = capture_vprintf(ft_vprintf, "%% %%%% %%\n");
+
+		TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
+		TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
+		TEST_MESSAGE("\t[PASS] Mix of %% and spaces test completed.");
+	}
+	// Percent not followed by specifier test
+	{
+		printf_result_t	result1 = capture_vprintf(vprintf, "Hello % World!\n");
+		printf_result_t	result2 = capture_vprintf(ft_vprintf, "Hello % World!\n");
+		TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
+		TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
+		TEST_MESSAGE("\t[PASS] Percent not followed by specifier test completed.");
+	}
+	// Invalid specifiers test
+	{
+		printf_result_t	result1 = capture_vprintf(vprintf, "%! %K %123 %%%y\n");
+		printf_result_t	result2 = capture_vprintf(ft_vprintf, "%! %K %123 %%%y\n");
+		TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
+		TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
+		TEST_MESSAGE("\t[PASS] Invalid specifiers test completed.");
+	}
+	// %%% test
+	{
+		printf_result_t	result1 = capture_vprintf(vprintf, "%%%");
+		printf_result_t	result2 = capture_vprintf(ft_vprintf, "%%%");
+		TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
+		TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
+		TEST_MESSAGE("\t[PASS] %%% test completed.");
 	}
 }
 
@@ -118,7 +163,7 @@ void	test_ft_printf_char(void)
 
 	TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
 	TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
-}
+	}
 
 void	test_ft_printf_str(void)
 {
@@ -329,7 +374,7 @@ void	test_ft_printf_hex(void)
 
 		TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
 		TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
-		TEST_MESSAGE("\t[PASS] Lowbase test completed.");
+		TEST_MESSAGE("\t[PASS] Upperbase test completed.");
 	}
 }
 

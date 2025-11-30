@@ -35,6 +35,8 @@ int	ft_vprintf(const char *format, va_list ap)
 		if (*format == '%')
 		{
 			format++;
+			if (!*format)
+				return (-1);
 			count += ft_parse_specifier(&format, ap);
 		}
 		else
