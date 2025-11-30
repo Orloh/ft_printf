@@ -76,6 +76,17 @@ void	test_ft_parse_specifier_integer(void)
 	test_with_args_and_ptr_move(5, "i", int2);
 	test_with_args_and_ptr_move(6, "i", int3);
 }
+
+void	test_ft_parse_specifier_decimal(void)
+{
+	int	int1 = 1;
+	int	int2 = 12345;
+	int	int3 = -12345;
+	
+	test_with_args_and_ptr_move(1, "d", int1);
+	test_with_args_and_ptr_move(5, "d", int2);
+	test_with_args_and_ptr_move(6, "d", int3);
+}
 int	main(void)
 {
 	UNITY_BEGIN();
@@ -84,5 +95,6 @@ int	main(void)
 	RUN_TEST(test_ft_parse_specifier_percent);
 	RUN_TEST(test_ft_parse_specifier_pointer);
 	RUN_TEST(test_ft_parse_specifier_integer);
+	RUN_TEST(test_ft_parse_specifier_decimal);
 	return UNITY_END();
 }

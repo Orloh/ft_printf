@@ -93,14 +93,15 @@ void	test_ft_printf_no_specifiers(void)
 		TEST_MESSAGE("\t[PASS] Basic test completed.");
 	}
 	//  Empty string test
-//	{
+	{
 //		printf_result_t	result1 = capture_vprintf(vprintf, "");
-//		printf_result_t	result2 = capture_vprintf(ft_vprintf, "");
+		printf_result_t	result2 = capture_vprintf(ft_vprintf, "");
 //
+		printf("%i\n", result2.ret);
 //		TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
 //		TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
 //		TEST_MESSAGE("\t[PASS] Empty string test completed.");
-//	}
+	}
 	//  Lone percent string test
 	{
 		printf_result_t	result1 = capture_vprintf(vprintf, "%\n");
@@ -156,24 +157,61 @@ void	test_ft_printf_no_specifiers(void)
 
 void	test_ft_printf_char(void)
 {
-	const char 	*format = "Char: %c %c\n";
+	// Standard char test
+	{
+		printf_result_t	result1 = capture_vprintf(vprintf, "Char: %c\n", 'A');
+		printf_result_t	result2 = capture_vprintf(ft_vprintf, "Char: %c\n", 'A');
 
-	printf_result_t	result1 = capture_vprintf(vprintf, format, 'c', 'S');
-	printf_result_t	result2 = capture_vprintf(ft_vprintf, format, 'c', 'S');
-
-	TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
-	TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
+		TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
+		TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
+		TEST_MESSAGE("\t[PASS] Standard char test completed.");
 	}
+	// Non-printable char test
+	{
+		printf_result_t	result1 = capture_vprintf(vprintf, "Tab: %c\n", '\t');
+		printf_result_t	result2 = capture_vprintf(ft_vprintf, "Tab: %c\n", '\t');
+
+		TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
+		TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
+		TEST_MESSAGE("\t[PASS] Tab test completed.");
+	}
+	// NULL char test
+	{
+		printf_result_t	result1 = capture_vprintf(vprintf, "Null: %c\n", '\0');
+		printf_result_t	result2 = capture_vprintf(ft_vprintf, "Null: %c\n", '\0');
+
+		TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
+		TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
+		TEST_MESSAGE("\t[PASS] Null test completed.");
+	}
+}
 
 void	test_ft_printf_str(void)
 {
-	const char	*format = "String: %s %s\n";
-
-	printf_result_t	result1 = capture_vprintf(vprintf, format, "Orlando", "Hernández");
-		printf_result_t	result2 = capture_vprintf(ft_vprintf, format, "Orlando", "Hernández");
-
-	TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
-	TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
+	// Standard string
+	{
+		printf_result_t	result1 = capture_vprintf(vprintf, "My name is: %s %s\n", "Orlando", "Hernández");
+		printf_result_t	result2 = capture_vprintf(ft_vprintf, "My name is: %s %s\n", "Orlando", "Hernández");
+		TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
+		TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
+		TEST_MESSAGE("\t[PASS] Standard string test completed.");
+	}
+	// Empty string
+	{
+		printf_result_t	result1 = capture_vprintf(vprintf, "Empty: [%s]\n", "");
+		printf_result_t	result2 = capture_vprintf(ft_vprintf, "Empty: [%s]\n", "");
+		TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
+		TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
+		TEST_MESSAGE("\t[PASS] Standard string test completed.");
+	}
+	// NULL string pointer
+	{
+		printf_result_t	result1 = capture_vprintf(vprintf, "NULL str: [%s]\n", (char *)NULL);
+		printf_result_t	result2 = capture_vprintf(ft_vprintf, "NULL str: [%s]\n",(char *) NULL);
+		TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
+		TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
+		TEST_MESSAGE("\t[PASS] NULL string test completed.");
+	}
 }
 
 void	test_ft_printf_ptr(void)
