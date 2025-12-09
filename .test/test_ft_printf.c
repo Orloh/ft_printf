@@ -95,9 +95,9 @@ void	test_ft_printf_no_specifiers(void)
 	//  Empty string test
 	{
 //		printf_result_t	result1 = capture_vprintf(vprintf, "");
-		printf_result_t	result2 = capture_vprintf(ft_vprintf, "");
+//		printf_result_t	result2 = capture_vprintf(ft_vprintf, "");
 //
-		printf("%i\n", result2.ret);
+//		printf("%i\n", result2.ret);
 //		TEST_ASSERT_EQUAL_INT(result1.ret, result2.ret);
 //		TEST_ASSERT_EQUAL_STRING(result1.buffer, result2.buffer);
 //		TEST_MESSAGE("\t[PASS] Empty string test completed.");
