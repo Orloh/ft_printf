@@ -9,3 +9,4 @@ obj/
 build/
 unity/
 test*.txt
+compile_flags.txt
