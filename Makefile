@@ -13,22 +13,22 @@
 .DEFAULT_GOAL := all
 
 # Directories
-SRC_DIR		= src
-INC_DIR		= inc
-OBJ_DIR		= obj
-TEST_DIR	= .test
-LIBFT_DIR	= libft
+SRC_DIR		:= src
+INC_DIR		:= inc
+OBJ_DIR		:= obj
+TEST_DIR	:= .test
+LIBFT_DIR	:= libft
 
 # Files
-NAME		= libftprintf.a
+NAME		:= libftprintf.a
 LIBFT		= $(LIBFT_DIR)/libft.a
 
 # Tools & Flags
-CC		= cc
-CFLAGS		= -Wall -Wextra -Werror -MD -I$(INC_DIR) -I$(LIBFT_DIR) -g -O0
-RM		= rm -f
-AR		= ar rcs
-PRINTF		= printf
+CC			:= cc
+CFLAGS		:= -Wall -Wextra -Werror -MD -I$(INC_DIR) -I$(LIBFT_DIR) -g -O0
+RM			:= rm -f
+AR			:= ar rcs
+PRINTF		:= printf
 
 # Source and object files
 SRC		= $(addprefix $(SRC_DIR)/,	\
