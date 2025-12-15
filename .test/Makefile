@@ -41,7 +41,9 @@ RESULTS = $(patsubst $(PATHT)test_%.c,$(PATHR)test_%.txt,$(SRCT))
 
 RESULT_FILES = $(PATHR)*.txt
 
-all: $(PATHU) $(BUILD_PATHS) $(RESULTS)
+all: $(PATHU) $(BUILD_PATHS) test
+
+test: $(RESULTS)
 	@cat $(RESULT_FILES)
 
 $(PATHR)%.txt: $(PATHB)%.$(TARGET_EXTENSION)
