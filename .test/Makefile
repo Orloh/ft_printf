@@ -10,9 +10,9 @@
 #                                                                              #
 # **************************************************************************** #
 
-CLEANUP = rm -f
-MKDIR = mkdir -p
-TARGET_EXTENSION=out
+CLEANUP			= rm -f
+MKDIR			= mkdir -p
+TARGET_EXTENSION	=out
 
 .PHONY: all clean test test_run
 
@@ -26,22 +26,22 @@ PATHD = build/depends/
 PATHO = build/objs/
 PATHR = build/results/
 
-BIN = ../libftprintf.a
+BIN		= ../libftprintf.a
 
-BUILD_PATHS = $(PATHB) $(PATHD) $(PATHO) $(PATHR)
+BUILD_PATHS	= $(PATHB) $(PATHD) $(PATHO) $(PATHR)
 
-SRCT = $(wildcard $(PATHT)*.c)
+SRCT 		= $(wildcard $(PATHT)*.c)
 
-COMPILE=cc -c
-LINK=cc -g -O0
-DEPEND=cc -MM -MG -MF
-CFLAGS=-I. -I$(PATHU) -I$(PATHI) -I$(PATHL) -DTEST -g -O0
+COMPILE		=cc -c
+LINK		=cc -g -O0
+DEPEND		=cc -MM -MG -MF
+CFLAGS		=-I. -I$(PATHU) -I$(PATHI) -I$(PATHL) -DTEST -g -O0
 
-RESULTS = $(patsubst $(PATHT)test_%.c,$(PATHR)test_%.txt,$(SRCT))
+RESULTS 	= $(patsubst $(PATHT)test_%.c,$(PATHR)test_%.txt,$(SRCT))
 
 RESULT_FILES = $(PATHR)*.txt
 
-all: $(PATHU) $(BUILD_PATHS) test
+all: $(PATHU)unity.c $(BUILD_PATHS) test
 
 test: $(RESULTS)
 	@cat $(RESULT_FILES)
@@ -63,10 +63,10 @@ $(PATHO)%.o:: $(PATHT)%.c
 $(PATHO)%.o:: $(PATHS)%.c
 	$(COMPILE) $(CFLAGS) $< -o $@
 
-$(PATHO)%.o:: $(PATHU)%.c | $(PATHU)
+$(PATHO)unity.o: $(PATHU)unity.c | $(PATHU)
 	$(COMPILE) $(CFLAGS) $< -o $@
 
-$(PATHU):
+$(PATHU)unity.c:
 	@echo "Unity framework not found. Downloading it.."
 	@git clone https://github.com/ThrowTheSwitch/Unity.git unity
 	@echo "Unity downloaded succescfully!"
@@ -90,6 +90,7 @@ clean:
 	$(CLEANUP) $(PATHO)*.o
 	$(CLEANUP) $(PATHB)*.$(TARGET_EXTENSION)
 	$(CLEANUP) $(PATHR)*.txt
+	rm -rf unity
 
 .PRECIOUS: $(PATHB)test_%.$(TARGET_EXTENSION)
 .PRECIOUS: $(PATHD)%.d
