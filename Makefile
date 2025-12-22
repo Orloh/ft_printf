@@ -21,11 +21,11 @@ LIBFT_DIR	:= libft
 
 # Files
 NAME		:= libftprintf.a
-LIBFT		= $(LIBFT_DIR)/libft.a
+LIBFT		:= $(LIBFT_DIR)/libft.a
 
 # Tools & Flags
 CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror -MD -I$(INC_DIR) -I$(LIBFT_DIR)
+CFLAGS		:= -Wall -Wextra -Werror -MD -I $(INC_DIR) -I $(LIBFT_DIR)
 RM			:= rm -f
 AR			:= ar rcs
 PRINTF		:= printf
@@ -64,13 +64,9 @@ clean:
 
 fclean: clean
 	$(MAKE) fclean -C $(LIBFT_DIR) || true
-	$(MAKE) clean -C $(TEST_DIR)
 	$(RM) $(NAME)
 	@$(PRINTF) "Removed $(NAME)\n"
 
 re: fclean all
-
-test: all
-	$(MAKE) all -C $(TEST_DIR)
 
 .PHONY: all clean fclean re test

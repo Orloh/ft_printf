@@ -8,5 +8,6 @@ bin/
 obj/
 build/
 unity/
+.test/
 test*.txt
 compile_flags.txt

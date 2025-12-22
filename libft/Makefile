@@ -16,9 +16,6 @@ CC = cc
 # Compiler flags
 CFLAGS = -Wall -Werror -Wextra
 
-# Debug flags (debug symbols, no optimizatinos)
-DEBUG_FLAGS = -Wall -Werror -Wextra -g -O0
-
 # Archiver
 AR = ar
 
@@ -58,12 +55,8 @@ BONUS_SRCS =	ft_lstnew_bonus.c	ft_lstadd_front_bonus.c	ft_lstadd_back_bonus.c	\
 		ft_lstsize_bonus.c	ft_lstlast_bonus.c	ft_lstdelone_bonus.c	\
 		ft_lstclear_bonus.c	ft_lstiter_bonus.c	ft_lstmap_bonus.c	
 
-# Main.out
-MAIN = main.out
-
 # Name of static libraries
 NAME = libft.a
-DEBUG_NAME = libft_debug.a
 
 # Header files
 HEADERS = libft.h
@@ -71,41 +64,23 @@ HEADERS = libft.h
 # Object files
 OBJS = $(SRCS:.c=.o)
 BONUS_OBJS = $(BONUS_SRCS:.c=.o)
-DEBUG_OBJS = $(SRCS:.c=_debug.o)
-DEBUG_BONUS_OBJS = $(BONUS_SRCS:.c=_debug.o)
-ALL_OBJS = $(OBJS) $(BONUS_OBJS) $(DEBUG_OBJS) $(DEBUG_BONUS_OBJS)
+ALL_OBJS = $(OBJS) $(BONUS_OBJS)
 
 # Compilation rule for objects
 %.o: %.c $(HEADERS) 
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
-# Compilation rule for debug objects
-%_debug.o: %.c $(HEADERS)
-	$(CC) $(DEBUG_FLAGS) $(CPPFLAGS) -c $< -o $@
-
 # Release library
 $(NAME): $(OBJS)
-	$(AR) $(ARFLAGS) $@ $^
-
-# Debug library
-$(DEBUG_NAME): $(DEBUG_OBJS)
 	$(AR) $(ARFLAGS) $@ $^
 
 # Default target
 all: $(NAME)
 
-# Debug target
-debug: $(DEBUG_NAME)
-
 # Add bonus to realese library
 bonus: $(OBJS) $(BONUS_OBJS)
 	@echo "Updating $(NAME) with bonus functions..."
 	$(AR) r $(NAME) $(BONUS_OBJS)
-
-# Add debug bonus to debug library
-bonus_debug: debug $(DEBUG_BONUS_OBJS)
-	@echo "Updating $(DEBUG_NAME) with bonus functions..."
-	$(AR) r $(DEBUG_NAME) $(DEBUG_BONUS_OBJS)
 
 # Clean up generated object files 
 clean: 
@@ -113,17 +88,10 @@ clean:
 
 # Clean everyting
 fclean: clean
-	$(RM) $(NAME) $(DEBUG_NAME) $(MAIN)
+	$(RM) $(NAME)
 
 # Rebuild project
 re: fclean all
-
-# Rebuild debug
-redebug: fclean debug
-
-# Link a test program to the debug library
-test_debug: bonus_debug
-	$(CC) main.c -o main.$(EXTENSION) $(DEBUG_FLAGS) $(CPPFLAGS) -L$(ROOT) -lft_debug
 
 # Phony targets
 .PHONY: all debug bonus bonus_debug clean fclean re test_debug
