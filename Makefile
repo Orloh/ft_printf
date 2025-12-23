@@ -16,7 +16,6 @@
 SRC_DIR		:= src
 INC_DIR		:= inc
 OBJ_DIR		:= obj
-TEST_DIR	:= .test
 LIBFT_DIR	:= libft
 
 # Files
@@ -24,10 +23,10 @@ NAME		:= libftprintf.a
 LIBFT		:= $(LIBFT_DIR)/libft.a
 
 # Tools & Flags
-CC			:= cc
+CC		:= cc
 CFLAGS		:= -Wall -Wextra -Werror -MD -I $(INC_DIR) -I $(LIBFT_DIR)
-RM			:= rm -f
-AR			:= ar rcs
+RM		:= rm -f
+AR		:= ar rcs
 PRINTF		:= printf
 
 # Source and object files
@@ -46,26 +45,31 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBFT):
+	$(PRINTF) "Creating $(notdir $@) ...\n"
 	$(MAKE) all -C $(LIBFT_DIR)
 
 $(NAME): $(LIBFT) $(OBJ)
 	$(PRINTF) "Creating $(NAME) ...\n"
 	cp $(LIBFT) $(NAME)
 	$(AR) $(NAME) $(OBJ)
+	$(PRINTF) "\nCreated $(NAME) ...\n"
 
 # Targets
 all: $(NAME)
 
 clean:
-	@$(PRINTF) "Cleaning up object files in ft_printf...\n\n"
-	$(MAKE) clean -C $(LIBFT_DIR) || true
+	@$(PRINTF) "Cleaning up object files in ft_printf...\n"
 	$(RM) -r $(OBJ_DIR)
-	@$(PRINTF) "Removed object files\n"
+	@$(PRINTF) "\nCleaning up object files in libft...\n"
+	$(MAKE) clean -C $(LIBFT_DIR) || true
+	@$(PRINTF) "\nRemoved object files\n\n"
 
 fclean: clean
-	$(MAKE) fclean -C $(LIBFT_DIR) || true
+	@$(PRINTF) "Cleaning static libraries in ft_printf...\n"
 	$(RM) $(NAME)
-	@$(PRINTF) "Removed $(NAME)\n"
+	@$(PRINTF) "\nCleaning static libraries in libft...\n"
+	$(MAKE) fclean -C $(LIBFT_DIR) || true
+	@$(PRINTF) "\nRemoved $(NAME)\n"
 
 re: fclean all
 

@@ -79,7 +79,7 @@ all: $(NAME)
 
 # Add bonus to realese library
 bonus: $(OBJS) $(BONUS_OBJS)
-	@echo "Updating $(NAME) with bonus functions..."
+	@printf "Updating $(NAME) with bonus functions...\n"
 	$(AR) r $(NAME) $(BONUS_OBJS)
 
 # Clean up generated object files 
